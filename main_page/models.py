@@ -13,13 +13,14 @@ class User(models.Model):
     def __str__(self):
         return '%s' % self.username
 
+class KodOdpadu(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    opis = models.TextField(help_text="It is text describing user's problem here")
 
-class Post(models.Model):
+class Rekord(models.Model):
     id = models.IntegerField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    nazwa_metalu = models.TextField(help_text="It is text describing user's problem here")
     content = models.TextField(help_text="It is text describing user's problem here")
-    well_being = models.IntegerField(help_text="It is numeric representation of well-being")
-    food = models.IntegerField(help_text="It is numeric representation of food")
-    date = models.DateTimeField(auto_now=False, auto_now_add=False, default=timezone.now, help_text="This is date when"
-                                                                                                    "post was added")
-    icon = models.CharField(max_length=200, help_text="This is name of icon file")
+    waga = models.IntegerField(help_text="It is numeric representation of waga")
+    kod_odpadu = models.ForeignKey(KodOdpadu, on_delete=models.CASCADE)

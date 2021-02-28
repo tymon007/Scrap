@@ -34,7 +34,7 @@
             <img id="logo" src="{% static 'images/logo2.png' %}" width="50">
         </a>
 
-        <button class="btn btn-dark">Jak się masz?</button>
+        <button class="btn btn-dark">Scrap 1.0</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
             aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,19 +49,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Calendar' %}">Dziennik</a>
+                    <a class="nav-link" href="{% url 'addrecord' %}">Dodaj rekord</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'wykresy' %}">Wykresy i posty</a>
+                    <a class="nav-link" href="{% url 'readrecords' %}">Czytaj rekordy</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'porady' %}">Porady i Pomoc</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'credits' %}">Drużyna "Jak się masz?"</a>
+                    <a class="nav-link" href="{% url 'credits' %}">Ekipa "Scrap 1.0"</a>
                 </li>
 
                 <li class="nav-item">

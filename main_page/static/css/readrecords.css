@@ -1,0 +1,31 @@
+.list .elem {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  background-color: rgba(44, 68, 68, 0.5);
+}
+.list .elem .metal {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #30c5c5;
+}
+.list .elem .text {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #30c5c5;
+}
+.list .elem .waga {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #30c5c5;
+}
+.list .elem .kod_odpadu {
+  font-size: 10px;
+  padding: 10px;
+  background-color: #30c5c5;
+}
+.list .elem:last-child {
+  margin-bottom: 0;
+}
+
+/*# sourceMappingURL=readrecords.css.map */

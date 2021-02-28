@@ -1,0 +1,33 @@
+.list {
+    .elem {
+        max-width: 400px;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        background-color: rgb(44, 68, 68, 0.5);
+
+        .metal {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: rgb(48, 197, 197);
+        }
+        .text {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: rgb(48, 197, 197);
+        }
+        .waga {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: rgb(48, 197, 197);
+        }
+        .kod_odpadu {
+            font-size: 10px;
+            padding: 10px;
+            background-color: rgb(48, 197, 197);
+        }
+    }
+
+    .elem:last-child {
+        margin-bottom: 0;
+    }
+}

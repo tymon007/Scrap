@@ -1,0 +1,36 @@
+{% extends 'general/index.html' %}
+
+{% block title %}<title>Dodaj rekord</title>{% endblock %}
+
+{% block content %}
+<div class="content">
+    <form action="{% url 'sendrecord' %}" method="POST">
+        {% csrf_token %}
+        <div class="input-group mb-3 dark">
+            <span class="input-group-text" id="basic-addon1">Metal</span>
+            <input type="text" class="form-control" name="metal" placeholder="Metal">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Opis</span>
+            <input type="text" class="form-control" name="opis" placeholder="Opis">
+        </div>
+
+        <div class="input-group mb-3 dark">
+            <span class="input-group-text" id="basic-addon1">Waga</span>
+            <input type="text" class="form-control" name="waga" placeholder="Waga">
+        </div>
+
+        <select class="form-select" name="kod_odpadu" aria-label="Default select example">
+            {% for kod_odpadu in kody_odpadow %}
+            <option value="{{ kod_odpadu.id }}">{{ kod_odpadu.id }} - {{ kod_odpadu.opis }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-dark">Cancel</button>
+            <input type="submit" class="btn btn-dark" value="Send">
+        </div>
+    </form>
+</div>
+{% endblock %}

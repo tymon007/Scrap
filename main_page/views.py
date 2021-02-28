@@ -14,7 +14,7 @@ matplotlib.use('Agg')
 from matplotlib import dates as mpl_dates
 from matplotlib import pyplot as plt
 
-from .models import User, Post
+from .models import User, Rekord, KodOdpadu
 
 from datetime import datetime
 import time
@@ -178,7 +178,6 @@ def logout(request):
     request.session['id_user'] = False
     return redirect('main_page')
 
-
 def me(request):
     # checking if user logged in
     is_logged = request.session.get('is_logged', False)
@@ -191,18 +190,6 @@ def me(request):
     else:
         return redirect('log_out')
 
-
-def porady(request):
-    # checking if user logged in
-    is_logged = request.session.get('is_logged', False)
-    if is_logged:
-        return render(request, 'environment/porady.html', context={
-            'is_logged_key': True
-        })
-    else:
-        return redirect('log_out')
-
-
 def credits(request):
     # checking if user logged in
     is_logged = request.session.get('is_logged', False)
@@ -212,7 +199,6 @@ def credits(request):
         })
     else:
         return redirect('log_out')
-
 
 def http_not_found(request):
     # checking if user logged in
@@ -224,30 +210,35 @@ def http_not_found(request):
     else:
         return redirect('log_out')
 
-
-def lekarze(request):
-    # checking if user logged in
+def readrecords (request):
     is_logged = request.session.get('is_logged', False)
     if is_logged:
-        return render(request, 'lekarze.html', context={
-            'is_logged_key': True
+        rekordy = Rekord.objects.filter().order_by('id')
+    
+        return render(request, 'readrecords.html', context={
+            'is_logged_key': True,
+            'rekordy': rekordy
         })
     else:
         return redirect('log_out')
 
+    pass
 
-def Calendar(request):
+def addrecord(request):
     # checking if user logged in
     is_logged = request.session.get('is_logged', False)
     if is_logged:
-        return render(request, 'environment/Calendar.html', context={
-            'is_logged_key': True
+        kody_odpadow = KodOdpadu.objects.filter().order_by('id')
+        return render(request, 'addrecord.html', context={
+            'is_logged_key': True,
+            'kody_odpadow': kody_odpadow
         })
     else:
         return redirect('log_out')
 
+    pass
 
-def sendpostcal(request):
+def sendrecord(request):
     # checking if user logged in
     is_logged = request.session.get('is_logged', False)
 
@@ -255,80 +246,26 @@ def sendpostcal(request):
         if request.method == 'POST':
             user_id_s = request.session.get('id_user', False)
 
-            mood_data_list = json.loads(request.POST.get("mood-data"))
-            print(mood_data_list)
+            metal = request.POST.get("metal")
+            opis = request.POST.get("opis")
+            waga = request.POST.get("waga")
+            kod_odpadu = request.POST.get("kod_odpadu")
 
-            if len(mood_data_list) != 0:
-                for elem in mood_data_list:
-                    # datew = date.fromtimestamp(int(elem["date"]))
-                    timestamp = elem["date"]
-                    dt_object = datetime.fromtimestamp(timestamp / 1000)
+            print(metal)
+            print(opis)
+            print(waga)
+            print(kod_odpadu)
 
-                    Post.objects.create(
-                        user_id=User.objects.get(id=user_id_s),
-                        content=elem["text"],
-                        well_being=elem["mood"],  # "here should be well-being from form"
-                        food=5,  # "here should be I dunno even what and from where" 2020-09-27T22:00:00.000Z
-                        icon="icon.txt",
-                        date=dt_object
-                    )
-
-                posts = Post.objects.filter(user_id=user_id_s).order_by('date')
-
-                plt.style.use('fivethirtyeight')
-
-                dates = []
-                well_being = []
-
-                for post in posts:
-                    dates.append(post.date)
-                    well_being.append(post.well_being)
-
-                plt.plot_date(dates, well_being, linestyle='solid', linewidth="2", marker="o", color='#4c96d7')
-
-                plt.gcf().autofmt_xdate()
-
-                date_format = mpl_dates.DateFormatter('%b, %d %Y')
-                plt.gca().xaxis.set_major_formatter(date_format)
-                plt.gca().set_facecolor('#f8f9fa')
-
-                plt.title("Wykres samopoczucia")
-                plt.xlabel("Miesiąc")
-                plt.ylabel("Samopoczucie")
-
-                plt.tight_layout()
-
-                _dir = os.path.join("/", "opt", "lampp", "htdocs", "main_page", "static", "images",
-                           "auto-generated-charts", "user-" + str(user_id_s))
-                if not os.path.exists(_dir):
-                    os.mkdir(_dir)
-
-                plt.savefig(
-                    '/opt/lampp/htdocs/main_page/static/images/auto-generated-charts/user-'
-                    + str(user_id_s) + '/last_well_being.png',
-                    format="png")
-            else:
-                pass
+            Rekord.objects.create(
+                user_id = User.objects.filter(id=user_id_s)[0],
+                nazwa_metalu = metal,
+                content = opis,
+                waga = waga,
+                kod_odpadu = KodOdpadu.objects.filter(id=kod_odpadu)[0]
+            )
         else:
             pass
 
-        return redirect('wykresy')
-    else:
-        return redirect('log_out')
-
-
-def wykresy(request):
-    # checking if user logged in
-    is_logged = request.session.get('is_logged', False)
-
-    if is_logged:
-        user_id_s = request.session.get("id_user", False)
-        posts = Post.objects.filter(user_id=user_id_s).order_by('date')
-
-        return render(request, 'post-related-pages/wykresy.html', context={
-            'is_logged_key': True,
-            'posts': posts,
-            'static_chart_name': 'images/auto-generated-charts/user-' + str(user_id_s) + '/last_well_being.png'
-        })
+        return redirect('readrecords')
     else:
         return redirect('log_out')

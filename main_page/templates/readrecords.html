@@ -1,0 +1,24 @@
+{% extends 'general/index.html' %}
+{% load static %}
+
+{% block title %}
+<title>Rekordy</title>
+<link rel="stylesheet" href="{% static 'css/readrecords.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    {% if rekordy %}
+    <div class="list">
+        {% for rekord in rekordy %}
+        <div class="elem">
+            <div class="metal">Metal: {{ rekord.nazwa_metalu }}</div>
+            <div class="text">{{ rekord.content }}</div>
+            <div class="waga">Waga: {{ rekord.waga }}</div>
+            <div class="kod_odpadu">Kod odpadu: {{ rekord.kod_odpadu.id }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

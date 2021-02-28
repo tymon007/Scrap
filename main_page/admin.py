@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User, Post
+from .models import User, Rekord, KodOdpadu
 
 
 # Register your models here.
@@ -10,7 +10,12 @@ class UserAdmin(admin.ModelAdmin):
     fields = ['id', 'username', 'email', 'password', 'salt']
 
 
-@admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user_id', 'content', 'well_being', 'food', 'date', 'icon')
-    fields = ['id', 'user_id', 'content', 'well_being', 'food', 'date', 'icon']
+@admin.register(Rekord)
+class RekordAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user_id', 'nazwa_metalu', 'content', 'waga', 'kod_odpadu')
+    fields = ['id', 'user_id', 'nazwa_metalu', 'content', 'waga', 'kod_odpadu']
+
+@admin.register(KodOdpadu)
+class KodOdpaduAdmin(admin.ModelAdmin):
+    list_display = ('id', 'opis')
+    fields = ['id', 'opis']
